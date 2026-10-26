@@ -1,0 +1,12 @@
+{
+  "name": "ci-cd-lab",
+  "version": "1.0.0",
+  "description": "CI/CD pipeline lab using GitHub Actions",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "jest": "^29.7.0"
+  }
+}
