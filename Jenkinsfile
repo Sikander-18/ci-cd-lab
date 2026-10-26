@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'Node20'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -14,22 +10,28 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                script {
+                    if (isUnix()) { sh 'npm install' } else { bat 'npm install' }
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'npm test'
+                script {
+                    if (isUnix()) { sh 'npm test' } else { bat 'npm test' }
+                }
             }
         }
 
         stage('Deploy') {
             when {
-                branch 'main'
+                expression { env.BRANCH_NAME == 'main' || env.GIT_BRANCH == 'origin/main' }
             }
             steps {
-                bat 'call deploy.bat'
+                script {
+                    if (isUnix()) { sh 'sh deploy.sh' } else { bat 'call deploy.bat' }
+                }
             }
         }
     }
